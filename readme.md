@@ -41,6 +41,7 @@ answer = '答案'
 
 
 ![image-20210915104417568](https://gitee.com/little-magician/picture-resources/raw/master/MarkDown%20/image-20210915104417568.png)
+![image-20210915110050208](https://gitee.com/little-magician/picture-resources/raw/master/MarkDown%20/image-20210915110050208.png)
 
 ##### ②、可能导致脚本执行不成功的原因：
 
