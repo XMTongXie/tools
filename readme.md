@@ -1,111 +1,50 @@
-# README
+# USAGE
 
-### 1、工具
 
-###### ①pycharm
-
-###### ②Try XPath
-
-###### ③Burp suite
-
-### 2、分析签到流程
-
-通过实际的登录流程，配合bup抓包分析，确定脚本签到需要的几个步骤：
-
-#### a、登录
-
-###### ①session保持会话
+### 1、输入访问地址
 
 ```python
-s = requests.session()
+login_url = 'https://www.t00ls.cc/login.html' #国内 登录页面
+                                              #国外 https://www.t00ls.net/login.html
+sign_in_url = 'https://www.t00ls.cc/members-profile-14344.html'#修改成自己的签到页面
+qiandao_url = 'https://www.t00ls.cc/ajax-sign.json'   #签到数据提交页面
+```
+
+### 2、添加用户cookie
+
+```python
+header = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0',
+    'Origin': 'https://www.t00ls.cc',
+    'Referer': 'https://www.t00ls.cc/login.html',
+    'Cookie': '填写用户cookie'   ##添加用户cookie
+  }
+```
+
+### 3、完善登录信息
+
+```python
+username = '登录名'
+password = '登录密码'
+question = '问题'#'母亲的名字','爷爷的名字','父亲出生的城市','您其中一位老师的名字','您个人计算机的型号','您最喜欢的餐馆名称','驾驶执照的最后四位数字'
+answer = '答案'
+```
+
+## 4、配置自动签到
+
+##### ①、在自己的云服务器添加crontab任务
+
+```
+ crontab  -e  #为当前用户添加crontab任务  如图从右到左，设置每年，每月，每天，6,16,20点钟，1分钟的时候执行脚本。
 ```
 
 
 
-###### ②携带登录数据请求登录页面
+![image-20210915104417568](https://gitee.com/little-magician/picture-resources/raw/master/MarkDown%20/image-20210915104417568.png)
 
-```python
-login_url = 'https://www.t00ls.cc/login.html' #国内
-                                             #国外 https://www.t00ls.net/login.html
-sign_data = {
-    'username' : username,
-    'password' : password,
-    'questionid': question_num[question],
-    'answer' : answer,
-    'formhash' : '40526fac',
-    'loginsubmit' : '提交',
-    'redirect' : 'https://www.t00ls.cc',
-    'cookietime' : '2592000'
-}
-#  登录
-def login():
-    s.post(url=login_url,data=sign_data,verify=False,headers=header,timeout=5)
-```
+##### ②、可能导致脚本执行不成功的原因：
 
+###### a、在配置crontab任务的时候最好是root用户
 
+###### b、脚本中、trontab中，涉及到路径的，要修改成绝对路径
 
-#### b、签到
-
-###### ①获取签到状态（一天没签/断签可补签/已签到）
-
-
-
-###### ②判断是否可以进行签到，可以签到 则 获取签到按钮的onclick属性值(提交数据的时候会携带onclick属性值里面的一组特征字符串来判断，数据来路是否正确。)
-
-###### ③携带onclick值，提交
-
-```python
-# 签到
-def qian_dao(page_text):
-    soup = BeautifulSoup(page_text,'html.parser')
-    qiandao = soup.find_all('input',{'class': 'btn signbtn'})
-    try:
-        if len(qiandao) == 1:
-            if qiandao[0]['value'] == '签到领TuBi':
-                #一天都没签的情况
-                qiandao_onclick = re.findall('\(\'(.*)\'\)',qiandao[0]['onclick'])
-            elif '已签到' in  qiandao[0]['value']:
-                #连续签到的情况
-                return '不可重复签到'
-
-        elif len(qiandao) == 2:
-            #存在漏签，可补签的情况
-            qiandao_onclick = re.findall('\(\'(.*)\'\)', qiandao[1]['onclick'])
-        qiandao_data = {
-            'formhash':qiandao_onclick[0],
-            'signsubmit':'apply'
-        }
-        qiandao_state = s.post(url=qiandao_url,data=qiandao_data,verify=False,timeout=5).text
-        print(qiandao_state)
-        print('1QWE')
-        if 'success' in qiandao_state:
-            return 1
-        else:
-            return 0
-
-    except:
-        exit(print(r'未知错误，脚本执行失败！'))
-```
-
-#### c、获取签到后的数据，并返回签到结果
-
-###### ①重新请求签到页面，xpth提取签到天数，并返回签到情况，写入log
-
-```python
-def login():
-    s.post(url=login_url,data=sign_data,verify=False,headers=header,timeout=5)
-```
-
-```python
-        qiandao_stat = f'签到成功：  {result}'
-        print(qiandao_stat)
-        log(start_time,qiandao_stat)
-    else:
-        qiandao_stat = f'签到失败，不可重复签到：  {result}'
-        print(qiandao_stat)
-        log(start_time, qiandao_stat)
-```
-
-### 3、完整代码
-
-![image-20210915102048782](https://gitee.com/little-magician/picture-resources/raw/master/MarkDown%20/image-20210915102048782.png)
