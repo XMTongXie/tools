@@ -4,13 +4,24 @@ from bs4 import BeautifulSoup
 #屏蔽https报错
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-UA = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
+ 
 header = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0',
+    'Cookie': '*********************',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': '******************',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+    'Accept-Encoding': 'gzip, deflate',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Length': '211',
     'Origin': 'https://www.t00ls.cc',
     'Referer': 'https://www.t00ls.cc/login.html',
-    'Cookie': '填写用户cookie'
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'same-origin',
+    'Sec-Fetch-User': '?1',
+    'Te': 'trailers',
+    'Connection': 'close',
   }
 
 username = '登录名'
@@ -37,7 +48,7 @@ sign_data = {
     'questionid': question_num[question],
     'answer' : answer,
     'formhash' : '40526fac',
-    'loginsubmit' : '提交',
+    'loginsubmit' : '登录',
     'redirect' : 'https://www.t00ls.cc',
     'cookietime' : '2592000'
 }
