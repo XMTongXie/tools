@@ -10,14 +10,26 @@ sign_in_url = 'https://www.t00ls.cc/members-profile-14344.html'#修改成自己�
 qiandao_url = 'https://www.t00ls.cc/ajax-sign.json'   #签到数据提交页面
 ```
 
-### 2、添加用户cookie
+### 2、添加用户cookie，user-agent,cookie跟user-agent可能对应，所以在修改cookie的同时需要修改user-agent
 
 ```python
 header = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0',
+    'Cookie': '*********************',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': '******************',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+    'Accept-Encoding': 'gzip, deflate',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Length': '211',
     'Origin': 'https://www.t00ls.cc',
     'Referer': 'https://www.t00ls.cc/login.html',
-    'Cookie': '填写用户cookie'   ##添加用户cookie
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'same-origin',
+    'Sec-Fetch-User': '?1',
+    'Te': 'trailers',
+    'Connection': 'close',
   }
 ```
 
