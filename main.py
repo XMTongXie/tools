@@ -89,7 +89,7 @@ def qian_dao(page_text):
             return 0
 
     except:
-        exit(print(r'未知错误，脚本执行失败！'))
+        exit(print(r'未知错误，登录不成功！请先确认账号密码是否正确！'))
 
 # 获取已签到的天数
 def get_qiandao_days(sign_in_later_page):
